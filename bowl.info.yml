@@ -1,0 +1,16 @@
+name: Bowl
+type: theme
+description: 'Base theme for VMLY&R projects.'
+package: VMLY&R
+core: 8.x
+base theme: classy
+hidden: true
+regions:
+  page_top: 'Page top'
+  header: 'Header'
+  pre_content: 'Pre-content'
+  content: Content
+  post_content: 'Post-content'
+  footer_first: 'Footer: First'
+  footer_second: 'Footer: Second'
+  page_bottom: 'Page bottom'
