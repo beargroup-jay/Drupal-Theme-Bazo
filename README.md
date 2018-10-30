@@ -1,1 +1,1 @@
-# Drupal-Theme-Bowl
+# Drupal Theme: Bowl
