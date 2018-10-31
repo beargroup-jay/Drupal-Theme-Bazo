@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Functions to support theming in the bowl theme and subthemes.
+ * Functions to support theming in the bazo theme and subthemes.
  */
 
 use Drupal\Component\Utility\Html;
@@ -12,7 +12,7 @@ use Drupal\Core\Template\Attribute;
 /**
  * Implements hook_theme_registry_alter().
  */
-function bowl_theme_registry_alter(&$theme_registry) {
+function bazo_theme_registry_alter(&$theme_registry) {
   $theme_keys = [
     'block',
     'html',
@@ -28,7 +28,7 @@ function bowl_theme_registry_alter(&$theme_registry) {
     // Attach post process if key or base_hook is in supported theme keys.
     if (in_array($key, $theme_keys) || (array_key_exists('base hook', $theme_registry[$key]) && in_array($theme_registry[$key]['base hook'], $theme_keys))) {
       // Add postprocess function to automatically convert attributes arrays.
-      $theme_registry[$key]['preprocess functions'][] = 'bowl_postprocess';
+      $theme_registry[$key]['preprocess functions'][] = 'bazo_postprocess';
     }
   }
 }
@@ -38,7 +38,7 @@ function bowl_theme_registry_alter(&$theme_registry) {
  *
  * @see \Drupal\Core\Theme\ThemeManager::render()
  */
-function bowl_postprocess(array &$variables) {
+function bazo_postprocess(array &$variables) {
   // Initialize attribute variables if not set.
   if (!isset($variables['#attribute_variables']) || !is_array($variables['#attribute_variables'])) {
     $variables['#attribute_variables'] = [];
@@ -72,13 +72,13 @@ function bowl_postprocess(array &$variables) {
 /**
  * Implements hook_preprocess_hook() for block.
  */
-function bowl_preprocess_block(array &$variables) {
+function bazo_preprocess_block(array &$variables) {
   $plugin_css = Html::cleanCssIdentifier($variables['plugin_id']);
   $provider_css = Html::cleanCssIdentifier($variables['configuration']['provider']);
   $block_class = 'block-' . $plugin_css;
 
   // Attach default and bundle-specific libraries.
-  _bowl_attach_libraries($variables, 'block', $provider_css, $plugin_css);
+  _bazo_attach_libraries($variables, 'block', $provider_css, $plugin_css);
 
   // Basic attribute variables.
   $variables['attributes']['class'][] = 'block';
@@ -98,7 +98,7 @@ function bowl_preprocess_block(array &$variables) {
 /**
  * Implements hook_preprocess_hook() for html.
  */
-function bowl_preprocess_html(array &$variables) {
+function bazo_preprocess_html(array &$variables) {
   // Set class if user is logged in.
   if (isset($variables['logged_in']) && $variables['logged_in']) {
     $variables['attributes']['class'][] = 'user-logged-in';
@@ -123,7 +123,7 @@ function bowl_preprocess_html(array &$variables) {
 /**
  * Implements hook_preprocess_hook() for media.
  */
-function bowl_preprocess_media(array &$variables) {
+function bazo_preprocess_media(array &$variables) {
   /** @var \Drupal\media\MediaInterface $media */
   $media = $variables['media'];
   $bundle = $media->bundle();
@@ -144,7 +144,7 @@ function bowl_preprocess_media(array &$variables) {
 /**
  * Implements hook_preprocess_hook() for node.
  */
-function bowl_preprocess_node(array &$variables) {
+function bazo_preprocess_node(array &$variables) {
   /** @var \Drupal\node\NodeInterface $node */
   $node = $variables['node'];
   $bundle = $node->bundle();
@@ -154,7 +154,7 @@ function bowl_preprocess_node(array &$variables) {
   $view_mode_css = Html::cleanCssIdentifier($view_mode);
 
   // Attach default and bundle-specific libraries.
-  _bowl_attach_libraries($variables, 'node', $view_mode_css, $bundle_css);
+  _bazo_attach_libraries($variables, 'node', $view_mode_css, $bundle_css);
 
   // Initialize attributes.
   $variables['footer_attributes'] = [];
@@ -186,7 +186,7 @@ function bowl_preprocess_node(array &$variables) {
 /**
  * Implements hook_preprocess_hook() for page.
  */
-function bowl_preprocess_page(array &$variables) {
+function bazo_preprocess_page(array &$variables) {
   // Track variables that should be converted to attribute objects.
   $variables['#attribute_variables'][] = 'footer_content_attributes';
 
@@ -199,7 +199,7 @@ function bowl_preprocess_page(array &$variables) {
 /**
  * Implements hook_preprocess_hook() for paragraph.
  */
-function bowl_preprocess_paragraph(array &$variables) {
+function bazo_preprocess_paragraph(array &$variables) {
   /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
   $paragraph = $variables['paragraph'];
   $bundle = $paragraph->bundle();
@@ -209,7 +209,7 @@ function bowl_preprocess_paragraph(array &$variables) {
   $view_mode_css = Html::cleanCssIdentifier($view_mode);
 
   // Attach default and bundle-specific libraries.
-  _bowl_attach_libraries($variables, 'paragraph', $view_mode_css, $bundle_css);
+  _bazo_attach_libraries($variables, 'paragraph', $view_mode_css, $bundle_css);
 
   // Set paragraph ID.
   $variables['attributes']['id'] = 'paragraph-' . $paragraph->id();
@@ -237,7 +237,7 @@ function bowl_preprocess_paragraph(array &$variables) {
 /**
  * Implements hook_preprocess_region().
  */
-function bowl_preprocess_region(&$variables) {
+function bazo_preprocess_region(&$variables) {
   $variables['attributes']['class'][] = 'region';
   $variables['attributes']['class'][] = 'region-' . Html::cleanCssIdentifier($variables['region']);
 
@@ -276,9 +276,9 @@ function bowl_preprocess_region(&$variables) {
 /**
  * Implements hook_preprocess_hook() for views_view.
  */
-function bowl_preprocess_views_view(array &$variables) {
+function bazo_preprocess_views_view(array &$variables) {
   // Attach default and bundle-specific libraries.
-  _bowl_attach_libraries($variables, 'view', $variables['id'], $variables['display_id']);
+  _bazo_attach_libraries($variables, 'view', $variables['id'], $variables['display_id']);
 
   $variables['attributes']['data-entity-id'] = $variables['id'];
   $variables['attributes']['data-entity-type'] = 'view';
@@ -296,7 +296,7 @@ function bowl_preprocess_views_view(array &$variables) {
  * @param null|string $bundle
  *   The entity type bundle or more specific instance ID.
  */
-function _bowl_attach_libraries(&$variables, $prefix, $view_mode = 'full', $bundle = NULL) {
+function _bazo_attach_libraries(&$variables, $prefix, $view_mode = 'full', $bundle = NULL) {
   // Clean variables.
   $prefix = Html::cleanCssIdentifier($prefix);
   $view_mode = Html::cleanCssIdentifier($view_mode);
@@ -307,7 +307,7 @@ function _bowl_attach_libraries(&$variables, $prefix, $view_mode = 'full', $bund
 
   // Get themed to attach libraries for (filter out ones we don't care about).
   $theme_names = array_filter(array_keys($active_theme->getBaseThemes()), function ($theme_name) {
-    return !in_array($theme_name, ['bowl', 'classy', 'stable']);
+    return !in_array($theme_name, ['bazo', 'classy', 'stable']);
   });
 
   // Add in the current active theme.

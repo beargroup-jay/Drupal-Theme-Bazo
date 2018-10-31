@@ -1,6 +1,6 @@
-name: Bowl
+name: Bazo
 type: theme
-description: 'Base theme for VMLY&R projects.'
+description: 'A base theme that adds helpful functionality to child-themes.'
 package: VMLY&R
 core: 8.x
 base theme: classy
