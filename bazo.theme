@@ -132,6 +132,9 @@ function bazo_preprocess_media(array &$variables) {
   $bundle_css = Html::cleanCssIdentifier($bundle);
   $view_mode_css = Html::cleanCssIdentifier($view_mode);
 
+  // Attach default and bundle-specific libraries.
+  _bazo_attach_libraries($variables, 'media', $view_mode_css, $bundle_css);
+
   $variables['attributes']['class'][] = 'media';
   $variables['attributes']['class'][] = "media--type-{$bundle_css}";
   $variables['attributes']['class'][] = "media--view-mode-{$view_mode_css}";
