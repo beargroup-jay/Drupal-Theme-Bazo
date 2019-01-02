@@ -241,6 +241,9 @@ function bazo_preprocess_paragraph(array &$variables) {
  * Implements hook_preprocess_region().
  */
 function bazo_preprocess_region(&$variables) {
+  // Attach default and bundle-specific libraries.
+  _bazo_attach_libraries($variables, 'region', $variables['region']);
+
   $variables['attributes']['class'][] = 'region';
   $variables['attributes']['class'][] = 'region-' . Html::cleanCssIdentifier($variables['region']);
 
