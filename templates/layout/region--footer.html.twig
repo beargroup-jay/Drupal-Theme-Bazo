@@ -16,7 +16,7 @@
 {% set classes = [] %}
 
 <section{{ attributes.addClass(classes) }}>
-  <div{{ content_attributes.addClass(content_classes) }}>
+  <div{{ content_attributes }}>
     {{ content }}
   </div>
 </section>

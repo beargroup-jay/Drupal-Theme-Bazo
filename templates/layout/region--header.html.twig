@@ -16,7 +16,7 @@
 {% set classes = [] %}
 
 <header{{ attributes.addClass(classes) }}>
-  <div{{ content_attributes.addClass('clearfix') }}>
+  <div{{ content_attributes }}>
     {{ content }}
   </div>
 </header>
